@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/main.css" />
+
+  <template id="root-template">
+    <div class="ez-container">
+      <h4 id="greeting">Loading...</h4>
+      <button class="add-link">Add new link</button>
+      <ul id="available-links"></ul>
+      <div id="link-form"></div>
+    </div>
+  </template>
+  <template id="available-links-template">
+    <li class="ez-container">
+      <a href="#" class="link"></a>
+      <span class="action-bar right">
+        <button class="action edit">-</button>
+        <button class="action delete">X</button>
+      </span>
+    </li>
+  </template>
+  <template id="link-form-template">
+    <form class="ez-container" action="#">
+      <input type="hidden" name="id" />
+      <div class="row">
+        <div class="cell"><label>Title:</label></div>
+        <div class="cell"><input type="text" name="title" required /></div>
+      </div>
+      <div class="row">
+        <div class="cell"><label>URL:</label></div>
+        <div class="cell"><input type="url" name="url" required minlength="6" /></div>
+      </div>
+      <div class="row">
+        <div class="cell"><label>Method:</label></div>
+        <div class="cell">
+          <select name="method" required>
+            <option value="GET" selected>GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="cell">
+          <div class="container">
+            <div class="row">
+              <div class="cell"><a href="#" id="show-advanced">Advanced</label></div>
+            </div>
+            <div class="row parameters">
+              <div class="cell">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Key</th><th>Value</th><th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text"></td><td><input type="text"></td>
+                    </tr>
+                  </tbody>
+                  <tr>
+                    
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" class="advanced params">
+        <div class="cell">
+          <div class="row">
+            <div class="cell"><input type="text" /></div>
+            <div class="cell"><input type="text" /></div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="row">
+        <div class="cell"><button type="submit" class="save-link">Save</button></div>
+      </div>
+    </form>
+  </template>
+</head>
+
+<body>
+  <div id="root">
+  </div>
+  <script src="./js/local-store.js" type="module"></script>
+  <script src="./js/popup.js" type="module"></script>
+</body>
+
+</html>
