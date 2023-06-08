@@ -1,0 +1,27 @@
+{
+  "name": "ez-link-extn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deepuvsdeepu/ez-link-extn.git"
+  },
+  "keywords": [
+    "chrome",
+    "extension",
+    "link"
+  ],
+  "author": "Pradeep G",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deepuvsdeepu/ez-link-extn/issues"
+  },
+  "homepage": "https://github.com/deepuvsdeepu/ez-link-extn#readme",
+  "dependencies": {
+    "lit": "^2.7.5"
+  }
+}

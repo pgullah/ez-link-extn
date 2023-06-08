@@ -1,4 +1,219 @@
 import * as db from './local-store.js';
+import { LitElement, html } from 'lit';
+
+export class AvilableLinks extends LitElement {
+    static get properties() {
+        return {
+            myProp: { type: String }
+        };
+    }
+    render() {
+        return html`
+        
+        `;
+    }
+}
+
+export class LinkForm extends LitElement {
+    render() {
+        return html`
+        <form class="ez-container" action="#" >
+            <input type="hidden" name="id" />
+            <div class="row">
+            <div class="cell"><label>Title:</label></div>
+            <div class="cell"><input type="text" name="title" required /></div>
+            </div>
+            <div class="row">
+            <div class="cell"><label>URL:</label></div>
+            <div class="cell"><input type="url" name="url" required minlength="6" /></div>
+            </div>
+            <div class="row">
+            <div class="cell"><label>Method:</label></div>
+            <div class="cell">
+                <select name="method" required>
+                <option value="GET" selected>GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="PATCH">PATCH</option>
+                <option value="DELETE">DELETE</option>
+                </select>
+            </div>
+            </div>
+            <div class="row">
+            <div class="cell">
+                <div class="container">
+                <div class="row">
+                    <div class="cell"><a href="#" id="show-advanced">Advanced</label></div>
+                </div>
+                <div class="row parameters">
+                    <div class="cell">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Key</th><th>Value</th><th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><input type="text"></td><td><input type="text"></td>
+                        </tr>
+                        </tbody>
+                        <tr>
+                        
+                        </tr>
+                    </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="row" class="advanced params">
+            <div class="cell">
+                <div class="row">
+                <div class="cell"><input type="text" /></div>
+                <div class="cell"><input type="text" /></div>
+                </div>
+            </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="cell"><button type="submit" class="save-link">Save</button></div>
+            </div>
+        </form>
+        `;
+    }
+
+}
+
+export class Application extends LitElement {
+    static properties = {
+        greeting: {},
+        canShowForm: {},
+        links: {},
+    };
+
+    constructor() {
+        super();
+        this.greeting = 'Loading...';
+        this.canShowForm = false;
+        this.links = [];
+    }
+
+    connectedCallback() {
+        super.connectedCallback();
+        db.findAllLinks().then(result => this.links = result);
+    }
+
+    render() {
+        const linkForm = html`
+            <form class="ez-container" action="#" >
+                <input type="hidden" name="id" />
+                <div class="row">
+                <div class="cell"><label>Title:</label></div>
+                <div class="cell"><input type="text" name="title" required /></div>
+                </div>
+                <div class="row">
+                <div class="cell"><label>URL:</label></div>
+                <div class="cell"><input type="url" name="url" required minlength="6" /></div>
+                </div>
+                <div class="row">
+                <div class="cell"><label>Method:</label></div>
+                <div class="cell">
+                    <select name="method" required>
+                    <option value="GET" selected>GET</option>
+                    <option value="POST">POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="PATCH">PATCH</option>
+                    <option value="DELETE">DELETE</option>
+                    </select>
+                </div>
+                </div>
+                <div class="row">
+                <div class="cell">
+                    <div class="container">
+                    <div class="row">
+                        <div class="cell"><a href="#" id="show-advanced">Advanced</label></div>
+                    </div>
+                    <div class="row parameters">
+                        <div class="cell">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Key</th><th>Value</th><th>Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><input type="text"></td><td><input type="text"></td>
+                            </tr>
+                            </tbody>
+                            <tr>
+                            
+                            </tr>
+                        </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <div class="row" class="advanced params">
+                <div class="cell">
+                    <div class="row">
+                    <div class="cell"><input type="text" /></div>
+                    <div class="cell"><input type="text" /></div>
+                    </div>
+                </div>
+                </div>
+                </div>
+                <div class="row">
+                <div class="cell"><button type="submit" class="save-link">Save</button></div>
+                </div>
+            </form>
+        `;
+
+        const availableLink = (item) => html`
+            <li class="ez-container">
+                <a href="#" class="link">${item}</a>
+                <span class="action-bar right">
+                <button class="action edit" @click=${this.editLink}>-</button>
+                <button class="action delete" @click=${this.deleteLink}>X</button>
+                </span>
+            </li>
+        `;
+        return html`
+        <div class="ez-container">
+            <h4 id="greeting">${this.greet()}</h4>
+            <button class="add-link" @click=${this.addNewLink()}>Add new link</button>
+            <ul id="available-links">
+                ${this.links.map(availableLink)}
+            </ul>
+            <div id="link-form">
+                ${this.canShowForm ? linkForm : ''}
+            </div>
+        </div>
+        `;
+    }
+
+    greet() {
+        return this.links.length > 0 ? 'Your Links' : "Sorry, you don't seem to have any links. Try adding links by clicking the 'Add new link' button"
+    }
+
+    async addNewLink() {
+
+    }
+
+    async deleteLink() {
+
+    }
+
+    async editLink() {
+
+    }
+}
+customElements.define('ez-app', Application);
+
+
+// @customElement('ez-available-links')
 /* // If there is CSS specified, inject it into the page.
 if (items.css) {
 chrome.tabs.insertCSS({ code: items.css }, function () {
