@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=development --watch"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,11 @@
   },
   "homepage": "https://github.com/deepuvsdeepu/ez-link-extn#readme",
   "dependencies": {
-    "lit": "^2.7.5"
+    "@lit-labs/preact-signals": "^1.0.2",
+    "@lit/context": "^1.1.0",
+    "lit": "^3.1.2"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.260",
   }
 }

@@ -1,5 +1,7 @@
+import {defaultIfEmpty} from './utils';
+
 let _STORE;
-const STORE_KEY = 'ez-link-extn-store'
+const STORE_KEY = '__ez-link-extn-store__'
 const chromeStorageGet = async () => {
     // Immediately return a promise and start asynchronous work
     return new Promise((resolve, reject) => {
@@ -38,7 +40,6 @@ const loadStore = async () => {
     return { ..._STORE };
 }
 
-
 const withStore = async (callback) => {
     const clonedStore = { ..._STORE };
     callback(clonedStore);
@@ -52,7 +53,7 @@ export const findLink = (id) => {
         throw new Error(`Could not find entry ${id}`);
     }
     return { ...entry };
-};
+}
 
 export const findAllLinks = async () => {
     const settings = await loadStore();
@@ -61,11 +62,8 @@ export const findAllLinks = async () => {
         entries.push(settings[key]);
     }
     return entries;
-};
+}
 
-const isEmpty = (obj) => (obj === undefined || obj === null || (typeof obj === 'string' && obj.trim() === ''));
-
-const defaultIfEmpty = (obj, defaultValue) => isEmpty(obj) ? defaultValue : obj;
 
 export const saveLink = async (item) => {
     const id = defaultIfEmpty(item.id, `${new Date().getTime()}`);
