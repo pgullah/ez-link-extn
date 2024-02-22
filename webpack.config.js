@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // provides ability to get interface fields as keys 
 // const keysTransformer = require('ts-transformer-keys/transformer').default;
+// @ts-ignore
 const ZipPlugin = require("zip-webpack-plugin");
 // @ts-ignore
 const PACKAGE = require('./package.json');
@@ -36,6 +37,12 @@ module.exports = (_, argv) => {
         chunks: ["popup"],
         scriptLoading: "module",
       }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, "src", "views", "options.html"),
+        filename: "views/options.html",
+        // chunks: ["popup"],
+        // scriptLoading: "module",
+      }),
       new CopyWebpackPlugin({
         patterns: [
           {
@@ -50,6 +57,10 @@ module.exports = (_, argv) => {
           {
             from: path.resolve(__dirname, "src/styles"),
             to: path.resolve('dist', 'styles'),
+          },
+          {
+            from: path.resolve(__dirname, "src/_locales"),
+            to: path.resolve('dist', '_locales'),
           },
         ],
 
