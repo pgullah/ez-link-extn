@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode=development --watch"
+    "clean": "rm -rf ./dist",
+    "build": "webpack --mode=development --watch",
+    "release": "webpack --mode=production && npm version patch"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,11 @@
   },
   "devDependencies": {
     "@types/chrome": "^0.0.260",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.2.6",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^5.1.4",
+    "copy-webpack-plugin": "^10.2.0",
+    "zip-webpack-plugin": "^4.0.1"
   }
 }

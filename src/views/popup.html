@@ -5,12 +5,12 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./css/main.css" />
-  <!-- <script src="./js/vendor/lit-core.min.js" type="module"></script> -->
+  <link rel="stylesheet" href="../css/main.css" />
+  <!-- <script src="../js/vendor/lit-core.min.js" type="module"></script> -->
   <!-- <script src="./js/local-store.js" type="module"></script> -->
-  <script src="./js/popup.js" type="module"></script>
+  <!-- <script src="./popup.js" type="module"></script> -->
 
-  <template id="root-template">
+  <!-- <template id="root-template">
     <div class="ez-container">
       <h4 id="greeting">Loading...</h4>
       <button class="add-link">Add new link</button>
@@ -26,6 +26,14 @@
         <button class="action delete">X</button>
       </span>
     </li>
+  </template>
+  <template id="adv-params-row-template">
+    <tr class="adv-params-row">
+      <td><input type="text" class="param-key"></td>
+      <td><input type="text" class="param-value"></td>
+      <td><input type="text" class="param-desc"></td>
+      <td><button type="button" class="param-delete">X</td>
+    </tr>
   </template>
   <template id="link-form-template">
     <form class="ez-container" action="#">
@@ -51,54 +59,44 @@
         </div>
       </div>
       <div class="row">
-        <div class="cell">
-          <div class="container">
-            <div class="row">
-              <div class="cell"><a href="#" id="show-advanced">Advanced</label></div>
-            </div>
-            <div class="row parameters">
-              <div class="cell">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Key</th><th>Value</th><th>Description</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><input type="text"></td><td><input type="text"></td>
-                    </tr>
-                  </tbody>
-                  <tr>
-                    
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="cell"><a href="#" id="toggle-adv" data-toggle="false">Advanced</a></div>
       </div>
-      <div class="row" class="advanced params">
+      <div id="toggle-adv-container" class="row container" data-toggle="false">
         <div class="cell">
           <div class="row">
-            <div class="cell"><input type="text" /></div>
-            <div class="cell"><input type="text" /></div>
+            <div class="cell"><button type="button" id="add-adv-param">Add new parameter</button></div>
           </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Value</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
         </div>
       </div>
-      </div>
       <div class="row">
-        <div class="cell"><button type="submit" class="save-link">Save</button></div>
+        <div class="cell">
+          <button type="submit" class="save-link">Save</button> &nbsp;
+          <button type="reset">Clear</button>
+        </div>
       </div>
     </form>
-  </template>
+  </template> -->
 </head>
 
 <body>
-  <div id="root">
+  <app-root></app-root>
+  <!-- <div id="root">
   </div>
+
+  <ez-app></ez-app> -->
+
   
-  <ez-app></ez-app>
 </body>
 
 </html>

@@ -1,0 +1,1 @@
+{"name":"ez-link-extn","manifest_version":3,"version":"1.0.0","default_locale":"en","options_page":"options/index.html","web_accessible_resources":[{"resources":["options/index.html"],"matches":["<all_urls>"]}],"permissions":["storage"],"action":{"default_popup":"popup/index.html"}}

@@ -28,6 +28,23 @@ h3, p {
     float: right;
 }
 
+.row {
+    padding: 3px;
+    margin: 3px;
+}
+
 .available-links button.action {
     font-size: small;
+}
+
+#toggle-adv[data-toggle="false"]:before {
+    content:"Show ";
+}
+
+#toggle-adv[data-toggle="true"]:before {
+    content:"Hide ";
+}
+
+.container[data-toggle="false"] {
+    display: none;
 }
