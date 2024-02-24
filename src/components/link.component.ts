@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators';
+import { customElement, property, state } from 'lit/decorators.js';
 import * as db from '../common/local-store';
+import { Link } from '../common/models';
 
 @customElement("app-link")
 export class LinkComponent extends LitElement {

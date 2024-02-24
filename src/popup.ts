@@ -3,6 +3,9 @@ import { ifExists, isEmpty, toBoolean } from './common/utils.js';
 // import { html, render } from 'lit';
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import './components/link-form.component';
+import './components/link.component'
+import { Link } from './common/models';
 
 
 /* @customElement("app-link-adv-opts")
@@ -33,19 +36,26 @@ export class AdvancedOptionsComponent extends LitElement {
 
 @customElement("app-root")
 export class AppComponent extends LitElement {
+    @state()
     linkForm?: Link
+    links?: Link[]
 
-    async render() {
-        const links = await db.findAllLinks();
-        const hasLinks = links && links.length > 0;
+    private showForm() {
+        this.linkForm = {}
+    }
+
+    render() {
+        db.findAllLinks().then(r => this.links = r);
+        const hasLinks = this.links && this.links.length > 0;
+        // this.linkForm = {}
         return html`
         <div class="ez-container">
         <h4 id="greeting">${hasLinks ? "Your Links" : "Sorry, you don't seem to have any links. Try adding links by clicking the 'Add new link' button"}</h4>
-        <button class="add-link" onclick="${this.linkForm = {}}">Add new link</button>
+        <button class="add-link" @click="${this.showForm}">Add new link</button>
         <ul id="available-links">
-            ${hasLinks && links.map(l => html`<app-link link=${l}></app-link>`)}
+            ${this.links?.map(l => html`<app-link link=${l}></app-link>`)}
         </ul>
-        ${this.linkForm && html`<app-link-form></app-link-form>`}
+        ${this.linkForm && html`<app-link-form link=${this.linkForm}></app-link-form>`}
         `;
     }
 }

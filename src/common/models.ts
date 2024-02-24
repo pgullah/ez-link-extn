@@ -1,24 +1,16 @@
-interface AppContext {
+export interface AppContext {
     toggle?: boolean
 }
 
-interface LinkParameter {
+export interface LinkParameter {
     key?: string
     value?: string
     desc?: string
 }
 
-type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-enum mm {
-    GET,
-    POST,
-    PUT,
-    DELETE,
-    PATCH
-}
-
-interface Link {
+export interface Link {
     id?: string,
     title?: string,
     url?: string,
@@ -26,15 +18,13 @@ interface Link {
     params?: LinkParameter[]
 }
 
-interface Option {
+export interface Option {
     get key(): string;
 
     get value(): string;
-
-    
 }
 
-class KeyOption implements Option {
+export class KeyOption implements Option {
     private opt
     constructor(opt: string) {
         this.opt = opt
@@ -42,12 +32,10 @@ class KeyOption implements Option {
 
     get key() {
         return this.opt
-
     }
 
     get value() {
         return this.opt
-
     }
 
     static from_array(...args: string[]) {
@@ -55,7 +43,7 @@ class KeyOption implements Option {
     }
 }
 
-class KeyValueOption implements Option {
+export class KeyValueOption implements Option {
     private k: string
     private v: string
     constructor(k: string, v: string) {

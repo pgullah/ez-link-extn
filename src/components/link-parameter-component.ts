@@ -1,9 +1,10 @@
 // import { html, render } from 'lit';
+import { LinkParameter } from '../common/models';
 import { LitElement, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators';
+import { customElement, property, state } from 'lit/decorators.js';
 
 @customElement("app-link-param")
-export class ParameterComponent extends LitElement {
+export class LinkParameterComponent extends LitElement {
     param!: LinkParameter
     render() {
         const deleteParam = (evt: any) => {
