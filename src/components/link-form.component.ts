@@ -60,26 +60,29 @@ export class FormComponent extends LitElement {
         this.toggle = !this.toggle
     }
 
+
+    private setInputValue(setter : (val: string) => {}) {
+        return (evt: Event) => setter((evt.target as HTMLInputElement).value)
+    }
+
     render() {
-        // const advancedOptionsToggle = () => {
-        //     context.toggle = !context.toggle;
-        //     refreshLinkForm(null);
-        // };
         return html`
         <form class="ez-container" action="#" @submit="${async () => await db.saveLink(this.link)}">
             <input type="hidden" name="id" value="${this.link.id} />
             <div class=" row">
                 <div class="cell"> <label>Title: </label></div>
-                <div class="cell"> <input type="text" name="title" required value="${this.link.title}" /> </div>
+                <div class="cell"> <input type="text" name="title" required value="${this.link.title}" @change=${this.setInputValue(v => this.link.title = v)}/> </div>
             </div>
             <div class="row">
                 <div class="cell"> <label>URL: </label></div>
-                <div class="cell"> <input type="url" name="url" required minlength="6" value="${this.link.url}" /> </div>
+                <div class="cell"> <input type="url" name="url" required minlength="6" value="${this.link.url}" @change=${this.setInputValue(v => this.link.title = v)}/> </div>
             </div>
             <div class="row">
                 <div class="cell"> <label>Method: </label></div>
                 <div class="cell">
-                    <hx-select .options=${this.buildHttpMethodOptions()} .defaultValue=${this.link.method} .required=${true}></hx-select>
+                    <select required @change=${this.setInputValue(v => this.link.title = v)}>
+                        ${this.buildHttpMethodOptions().map(o => html `<option value=${o.key} ?selected=${o.key == this.link.method}>${o.value}</option>`)}
+                    <select>
                 </div>
             </div>
             <div class="row">

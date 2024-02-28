@@ -29,12 +29,14 @@ export class AppComponent extends SignalWatcher(LitElement) {
 
     render() {
         const hasLinks = appState.links.value.length > 0;
+        // db.resetLinks().then(() => console.log("cleared links"));
         return html`
-        <div class="ez-container" @showLinkForm=${() => this.showForm()} @hideLinkForm=${() => this.hideForm()}>
+        <div class="ez-container" @showLinkForm=${this.showForm} @hideLinkForm=${this.hideForm}>
             <h4 id="greeting">${hasLinks ? "Your Links" : "Sorry, you don't seem to have any links. Try adding links by clicking the 'Add new link' button"}</h4>
             <button class="add-link" @click="${this.showForm}">Add new link</button>
             <app-links></app-links>
             ${this.linkForm && html`<app-link-form .link=${this.linkForm}></app-link-form>`}
+        </div>
         `;
     }
 }

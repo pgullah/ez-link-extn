@@ -77,3 +77,7 @@ export const deleteLink = async (id: any,) => {
     await withStore((clonedStore: any) => delete clonedStore[entry.id]);
 }
 
+export const resetLinks = async () => {
+    await saveStore({});
+}
+
