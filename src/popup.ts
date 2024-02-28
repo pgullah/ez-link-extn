@@ -7,42 +7,35 @@ import './components/link-form.component';
 import './components/links.component'
 import { Link } from './common/models';
 import { SignalWatcher } from '@lit-labs/preact-signals';
+import { appState } from './common/app-state';
 
 
 @customElement("app-root")
 export class AppComponent extends SignalWatcher(LitElement) {
     @state()
     linkForm?: Link
-    links?: Link[]
 
-    private showForm() {
-        this.linkForm = {}
+    private showForm(evt?: Event) {
+        if(evt != null && evt instanceof CustomEvent) {
+            this.linkForm = evt.detail
+        } else {
+            this.linkForm = {}
+        }
+    }
+
+    private hideForm() {
+        this.linkForm = undefined
     }
 
     render() {
-        db.findAllLinks().then(r => this.links = r);
-        const hasLinks = this.links && this.links.length > 0;
+        const hasLinks = appState.links.value.length > 0;
         return html`
-        <div class="ez-container">
-        <h4 id="greeting">${hasLinks ? "Your Links" : "Sorry, you don't seem to have any links. Try adding links by clicking the 'Add new link' button"}</h4>
-        <button class="add-link" @click="${this.showForm}">Add new link</button>
-        <ul id="available-links">
-            ${this.links?.map(l => html`<app-link link=${l}></app-link>`)}
-        </ul>
-        ${this.linkForm && html`<app-link-form link=${this.linkForm}></app-link-form>`}
+        <div class="ez-container" @showLinkForm=${() => this.showForm()} @hideLinkForm=${() => this.hideForm()}>
+            <h4 id="greeting">${hasLinks ? "Your Links" : "Sorry, you don't seem to have any links. Try adding links by clicking the 'Add new link' button"}</h4>
+            <button class="add-link" @click="${this.showForm}">Add new link</button>
+            <app-links></app-links>
+            ${this.linkForm && html`<app-link-form .link=${this.linkForm}></app-link-form>`}
         `;
     }
 }
-
-
-/* const init = async () => {
-    const $root = document.getElementById('root');
-    if ($root) {
-        $root.innerHTML = '';
-        render($root, AppComponent());
-    }
-};
-
-init(); */
-
 

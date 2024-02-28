@@ -3,9 +3,9 @@ import { customElement, property, state } from 'lit/decorators.js';
 import * as db from '../common/local-store';
 import { Link } from '../common/models';
 import { SignalWatcher } from '@lit-labs/preact-signals';
-import { appState } from 'common/app-state';
+import { appState } from '../common/app-state';
 
-@customElement("app-link")
+@customElement("app-links")
 export class LinksComponent extends SignalWatcher(LitElement) {
 
     private async deleteLink(link: Link) {
@@ -14,28 +14,31 @@ export class LinksComponent extends SignalWatcher(LitElement) {
         appState.links.value = await db.findAllLinks();
     }
 
-    refreshLinkForm(link: any) {
+    private async openLink(link: any) {
+        
 
     }
 
-    async openLink(link: any) {
-
+    private editLink(link: any) {
+        this.dispatchEvent(new CustomEvent('showLinkForm',{
+            detail: link,
+        }))
     }
 
     render() {
         return html
         `<ul id="available-links">
-        ${appState.links.value.map(l => this.renderLink(l))}
+            ${appState.links.value.map(l => this.renderLink(l))}
         </ul>`
     }
 
     private renderLink(link: Link) {
         return html`
             <li class="ez-container">
-                <a href="#" class="link" title="${link.title}" onclick="${async () => await this.openLink(link)}">${this.link.title}</a>
+                <a href="#" class="link" title="${link.title}" @click="${async () => await this.openLink(link)}">${link.title}</a>
                 <span class="action-bar right">
-                <button class="action edit" onclick="${() => this.refreshLinkForm(link)}">-</button>
-                <button class="action delete" onclick="${async () => await this.deleteLink(link)}">X</button>
+                <button class="action edit" @click="${() => this.editLink(link)}">-</button>
+                <button class="action delete" @click="${async () => await this.deleteLink(link)}">X</button>
                 </span>
             </li>
             `;
