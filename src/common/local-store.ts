@@ -48,8 +48,10 @@ const withStore = async (callback: any) => {
     _STORE = clonedStore;
 }
 
-export const findLink = (id: any) => {
-    const entry = _STORE[id];
+type Identity = string | number
+
+export const findLink = (id: Identity) : Link => {
+    const entry = _STORE[id] || _STORE[`${id}`];
     if (!entry) {
         throw new Error(`Could not find entry ${id}`);
     }
@@ -58,7 +60,7 @@ export const findLink = (id: any) => {
 
 export const findAllLinks = async () => {
     const settings = await loadStore();
-    const entries = [];
+    const entries: Link[] = [];
     for (const key in settings) {
         entries.push(settings[key]);
     }
@@ -72,9 +74,9 @@ export const saveLink = async (item: Link) => {
     return id;
 }
 
-export const deleteLink = async (id: any,) => {
+export const deleteLink = async (id: Identity,) => {
     const entry = findLink(id);
-    await withStore((clonedStore: any) => delete clonedStore[entry.id]);
+    await withStore((clonedStore: any) => delete clonedStore[entry.id!!]);
 }
 
 export const resetLinks = async () => {

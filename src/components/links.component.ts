@@ -10,7 +10,7 @@ export class LinksComponent extends SignalWatcher(LitElement) {
 
     private async deleteLink(link: Link) {
         console.log("delete data:", link);
-        await db.deleteLink(link);
+        await db.deleteLink(link.id!!);
         appState.links.value = await db.findAllLinks();
     }
 
