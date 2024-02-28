@@ -22,6 +22,8 @@ export class LinksComponent extends SignalWatcher(LitElement) {
     private editLink(link: any) {
         this.dispatchEvent(new CustomEvent('showLinkForm',{
             detail: link,
+            bubbles: true,
+            composed: true
         }))
     }
 
