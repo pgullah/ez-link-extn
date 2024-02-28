@@ -17,7 +17,7 @@ export class LinkParameterComponent extends LitElement {
             <td><input type="text" class="param-key" value="${this.param.key}"></td>
             <td><input type="text" class="param-value" value="${this.param.value}"></td>
             <td><input type="text" class="param-desc" value="${this.param.desc}"></td>
-            <td><button type="button" class="param-delete" onclick="${deleteParam}">X</td>
+            <td><button type="button" class="param-delete" @click="${deleteParam}">X</td>
         </tr>
         `;
     }
