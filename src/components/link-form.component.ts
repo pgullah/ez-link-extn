@@ -64,11 +64,8 @@ export class FormComponent extends LitElement {
     
 
     private addNewParameter() {
-        this.link = this.link || [];
-        this.link.params = this.link.params || [];
-        this.link.params = this.link.params.concat({})
-        // this.link.params = [...this.link.params, {}]
-        this.requestUpdate()
+        const newParms = (this.link.params || []).concat({});
+        this.link = {...this.link, params: newParms}
     }
 
     private hideForm() {
@@ -78,8 +75,8 @@ export class FormComponent extends LitElement {
         }))
     }
 
-    private async saveForm(link: Link) {
-        await db.saveLink(this.link)
+    private async saveForm(linkToSave: Link) {
+        await db.saveLink(linkToSave)
         appState.links.value = await db.findAllLinks()
         this.hideForm()
     }
@@ -131,7 +128,7 @@ export class FormComponent extends LitElement {
 
     private renderReactiveSelect(label: string, options: KeyOption[], getter: Supplier<string | undefined>, setter: Consumer<string>, required: boolean = false) {
         return html`
-            <md-outlined-select @change=${this.setInputValue(setter)}>
+            <md-outlined-select name=${label} @change=${this.setInputValue(setter)} ?required=${required}>
                 ${options.map(o => html`<md-select-option value=${o.key} ?selected=${o.key == getter()}><div slot="headline">${o.value}</div></option>`)}
             </md-outlined-select>
         `
@@ -178,7 +175,7 @@ export class FormComponent extends LitElement {
                     </div>
                     <div class="link-row">
                         <label>
-                            Advanced Options [${this.toggle}]<md-switch icons ?selected=${this.toggle}  @change="${this.toggleAdvOpts}"></md-switch>
+                            Advanced Options <md-switch icons ?selected=${this.toggle} @change="${this.toggleAdvOpts}"></md-switch>
                         </label>
                     </div>
                     ${this.toggle ? this.advancedOptions() : nothing}
