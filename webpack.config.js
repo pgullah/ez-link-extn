@@ -40,6 +40,7 @@ module.exports = (_, argv) => {
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "src", "views", "options.html"),
         filename: "views/options.html",
+        chunks: [],
         // chunks: ["popup"],
         // scriptLoading: "module",
       }),
@@ -86,6 +87,26 @@ module.exports = (_, argv) => {
             })
           }
         },
+        {
+          test: /\.css$/i,
+          use: ["style-loader", "css-loader"],
+        },
+        /* 
+        // npm install --save-dev typings-for-css-modules-loader
+        {
+          test: /\.css$/,
+          include: path.join(__dirname, 'src/components'),
+          use: [
+            'style-loader',
+            {
+              loader: 'typings-for-css-modules-loader',
+              options: {
+                modules: true,
+                namedExport: true
+              }
+            }
+          ]
+        } */
       ]
     },
 
