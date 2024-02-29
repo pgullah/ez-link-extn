@@ -13,6 +13,11 @@ export class LinkParameterComponent extends LitElement {
         };
 
         return html`
+        <div class="link-row">
+            <md-filled-text-field autofocus="" label="Name" role="presentation" inputmode="" type="text" autocomplete="" value="${this.param.key}"></md-filled-text-field>
+            <md-filled-text-field autofocus="" label="Value" role="presentation" inputmode="" type="text" autocomplete="" value="${this.param.value}"></md-filled-text-field>
+            <md-filled-text-field autofocus="" label="Description" role="presentation" inputmode="" type="text" autocomplete="" value="${this.param.desc}"></md-filled-text-field>
+        </div>
         <tr class="adv-params-row">
             <td><input type="text" class="param-key" value="${this.param.key}"></td>
             <td><input type="text" class="param-value" value="${this.param.value}"></td>
