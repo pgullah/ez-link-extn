@@ -5,7 +5,8 @@
     "default_locale": "en",
     "options_page": "views/options.html",
     "background" : {
-        "service_worker" : "js/background.js"
+        "service_worker" : "js/background-bundle.js",
+        "type": "module"
     },
     "web_accessible_resources": [
         {
