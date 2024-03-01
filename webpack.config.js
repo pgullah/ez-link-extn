@@ -18,7 +18,7 @@ module.exports = (_, argv) => {
   const isProd = argv.mode === "production" || argv.mode === "prod";
   return {
     entry: {
-      options: [path.resolve(__dirname, "src", "options.ts")],
+      redirect: [path.resolve(__dirname, "src", "redirect.ts")],
       popup: [path.resolve(__dirname, "src", "popup.ts")],
     },
     /* externals: {
@@ -32,18 +32,24 @@ module.exports = (_, argv) => {
     devtool: "cheap-module-source-map",
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, "src", "views", "popup.html"),
-        filename: "views/popup.html",
-        chunks: ["popup"],
+        template: path.resolve(__dirname, "src", "views", `popup.html`),
+        filename: `views/popup.html`,
+        chunks: [`popup`],
         scriptLoading: "module",
       }),
       new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, "src", "views", `redirect.html`),
+        filename: `views/redirect.html`,
+        chunks: [`redirect`],
+        scriptLoading: "module",
+      }),
+      /* new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "src", "views", "options.html"),
         filename: "views/options.html",
         chunks: [],
         // chunks: ["popup"],
         // scriptLoading: "module",
-      }),
+      }), */
       new CopyWebpackPlugin({
         patterns: [
           {
