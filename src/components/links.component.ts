@@ -1,7 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import * as db from '../common/local-store';
-import { Link } from '../common/models';
+import { EventActionType, Link } from '../common/models';
 import { SignalWatcher } from '@lit-labs/preact-signals';
 import { appState } from '../common/app-state';
 import '@material/web/button/filled-button.js';
@@ -34,38 +34,10 @@ export class LinksComponent extends SignalWatcher(LitElement) {
         appState.links.value = await db.findAllLinks();
     }
 
-    /* private async openLink(link: any) {
-        chrome.tabs.query({active: true, currentWindow: true}, function (tabs){
-            // chrome.tabs.sendMessage(tabs[0].id, {action: "readDom"});
-        
-         });
-
-
-    }
- */
-    private async openLink(evt: Event, link: Link) {
+    private async dispatchLinkOpen(evt: Event, link: Link) {
         evt.preventDefault();
-        const { url, method = 'GET' } = link;
-        /* if (method === 'GET') {
-            chrome.tabs.create({ url: url });
-            return;
-        } */
-        chrome.tabs.create(
-            { url: chrome.runtime.getURL("views/redirect.html") },
-            (tab) => {
-                const handler = (tabId: number, changeInfo: any) => {
-                    if (tabId === tab.id && changeInfo.status === "complete") {
-                        chrome.tabs.onUpdated.removeListener(handler);
-                        chrome.tabs.sendMessage(tabId, link);
-                    }
-                };
-    
-                // in case we're faster than page load (usually):
-                chrome.tabs.onUpdated.addListener(handler);
-                // just in case we're too late with the listener:
-                tab.id !== undefined && chrome.tabs.sendMessage(tab.id, link);
-            }
-        );
+        // send message to service worker
+        chrome.runtime.sendMessage({ actionType: EventActionType.LINK_ACTION_INIT, data: link });
     }
 
     private editLink(link: any) {
@@ -77,15 +49,11 @@ export class LinksComponent extends SignalWatcher(LitElement) {
     }
 
     render() {
-        return html
-            `
-        <md-list style="max-width: 300px;">
-            ${appState.links.value.map(l => this.renderLink(l))}
-        </md-list>`
-    }
-
-    private showDialog(event: Event) {
-        ((event.target as Element).nextElementSibling as MdDialog)?.show();
+        return html`
+            <md-list >
+                ${appState.links.value.map(l => this.renderLink(l))}
+            </md-list>
+        `
     }
 
     private renderEditButton(link: Link) {
@@ -111,13 +79,12 @@ export class LinksComponent extends SignalWatcher(LitElement) {
     private renderLink(link: Link) {
         if (true) {
             return html`
-            <md-list-item type="button">
-                <a href="#" class="link" title="${link.title}" @click="${async (evt: Event) => await this.openLink(evt, link)}">${link.title}</a>
-                ${this.renderEditButton(link)}
-                ${this.renderDeleteButton(link)}
-            </md-list-item>
-                
-            `
+                <md-list-item type="button">
+                    <a href="#" class="link" title="${link.title}" @click="${async (evt: Event) => await this.dispatchLinkOpen(evt, link)}">${link.title}</a>
+                    ${this.renderEditButton(link)}
+                    ${this.renderDeleteButton(link)}
+                </md-list-item>                
+            `;
         }
     }
 }

@@ -10,6 +10,11 @@ export interface LinkParameter {
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
+export enum EventActionType {
+    LINK_ACTION_INIT,
+    LINK_ACTION_CLOSE
+}
+
 export interface Link {
     id?: string,
     title?: string,

@@ -21,6 +21,7 @@ module.exports = (_, argv) => {
       redirect: [path.resolve(__dirname, "src", "redirect.ts")],
       popup: [path.resolve(__dirname, "src", "popup.ts")],
       background: [path.resolve(__dirname, "src", "background.ts")],
+      options: [path.resolve(__dirname, "src", "options.ts")],
     },
     /* externals: {
       "chrome-extension-async": "chrome-extension-async",
@@ -42,6 +43,12 @@ module.exports = (_, argv) => {
         template: path.resolve(__dirname, "src", "views", `redirect.html`),
         filename: `views/redirect.html`,
         chunks: [`redirect`],
+        scriptLoading: "module",
+      }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, "src", "views", `options.html`),
+        filename: `views/options.html`,
+        chunks: [`options`],
         scriptLoading: "module",
       }),
       /* new HtmlWebpackPlugin({
