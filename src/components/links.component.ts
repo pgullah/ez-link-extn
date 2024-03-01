@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 import * as db from '../common/local-store';
 import { EventActionType, Link } from '../common/models';
 import { SignalWatcher } from '@lit-labs/preact-signals';
@@ -11,7 +11,6 @@ import '@material/web/divider/divider.js';
 import '@material/web/icon/icon.js';
 import '@material/web/list/list.js';
 import '@material/web/list/list-item.js';
-import { MdDialog } from '@material/web/dialog/dialog.js';
 const linkStyles = css`
   md-list {
     border-radius: 8px;
