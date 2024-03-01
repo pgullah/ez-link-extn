@@ -9,7 +9,7 @@ const ZipPlugin = require("zip-webpack-plugin");
 // @ts-ignore
 const PACKAGE = require('./package.json');
 // @ts-ignore
-const MANIFEST = require('./src/manifest.json');
+const MANIFEST = require('./manifest.json');
 
 const NO_OP = () => {};
 
@@ -20,6 +20,7 @@ module.exports = (_, argv) => {
     entry: {
       redirect: [path.resolve(__dirname, "src", "redirect.ts")],
       popup: [path.resolve(__dirname, "src", "popup.ts")],
+      background: [path.resolve(__dirname, "src", "background.ts")],
     },
     /* externals: {
       "chrome-extension-async": "chrome-extension-async",
@@ -53,7 +54,7 @@ module.exports = (_, argv) => {
       new CopyWebpackPlugin({
         patterns: [
           {
-            from: path.resolve(__dirname, "src/manifest.json"),
+            from: path.resolve(__dirname, "manifest.json"),
             transform: () => {
               const mutableManifest = { ...MANIFEST, };
               mutableManifest.version = PACKAGE.version;
