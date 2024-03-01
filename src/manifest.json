@@ -4,6 +4,9 @@
     "version": "1.0.0",
     "default_locale": "en",
     "options_page": "views/options.html",
+    "background" : {
+        "service_worker" : "js/background.js"
+    },
     "web_accessible_resources": [
         {
             "resources": [

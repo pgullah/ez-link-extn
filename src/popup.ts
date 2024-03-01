@@ -10,17 +10,16 @@ import { Link } from './common/models';
 import './components/link-form.component';
 import './components/links.component';
 import { mainStyles } from './styles/main';
+import { matFabStyle } from './styles/component';
 
 @customElement("app-root")
 export class AppComponent extends SignalWatcher(LitElement) {
     static styles = [
         mainStyles,
+        matFabStyle,
     ];
     @state()
     linkForm?: Link
-
-    @query(".mdc-top-app-bar")
-    private _topAppBarElement!: HTMLDivElement
 
     private showForm(evt?: Event) {
         if(evt != null && evt instanceof CustomEvent) {
@@ -54,14 +53,14 @@ export class AppComponent extends SignalWatcher(LitElement) {
 
     connectedCallback(): void {
         super.connectedCallback();
-        const pid = setInterval(() => {
+        /* const pid = setInterval(() => {
             const el = this.renderRoot.querySelector('.mdc-top-app-bar')!
             console.log("checking ", el)
             if (el !== null && el !== undefined) {
                 clearInterval(pid);
             }
 
-        }, 100);
+        }, 100); */
         //${new MDCTopAppBar(document.querySelector('.mdc-top-app-bar')!)}
     }
 
