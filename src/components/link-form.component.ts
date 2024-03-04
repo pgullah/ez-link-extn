@@ -16,8 +16,6 @@ import { CloseIcon, DeleteIcon } from '../common/icons';
 import * as db from '../common/local-store';
 import { KeyOption, Link, LinkParameter } from '../common/models';
 import { renderReactiveInput, renderReactiveSelect } from '../common/render-utils';
-import './link-parameter.component';
-import './select.component';
 
 const formStyles = css`
 

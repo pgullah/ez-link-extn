@@ -21,7 +21,7 @@ module.exports = (_, argv) => {
       redirect: [path.resolve(__dirname, "src", "redirect.ts")],
       popup: [path.resolve(__dirname, "src", "popup.ts")],
       background: [path.resolve(__dirname, "src", "background.ts")],
-      options: [path.resolve(__dirname, "src", "options.ts")],
+      // options: [path.resolve(__dirname, "src", "options.ts")],
     },
     /* externals: {
       "chrome-extension-async": "chrome-extension-async",
@@ -45,18 +45,11 @@ module.exports = (_, argv) => {
         chunks: [`redirect`],
         scriptLoading: "module",
       }),
-      new HtmlWebpackPlugin({
+/*       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "src", "views", `options.html`),
         filename: `views/options.html`,
         chunks: [`options`],
         scriptLoading: "module",
-      }),
-      /* new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, "src", "views", "options.html"),
-        filename: "views/options.html",
-        chunks: [],
-        // chunks: ["popup"],
-        // scriptLoading: "module",
       }), */
       new CopyWebpackPlugin({
         patterns: [
@@ -69,13 +62,17 @@ module.exports = (_, argv) => {
               return Buffer.from(JSON.stringify(mutableManifest));
             }
           },
-          {
+          /* {
             from: path.resolve(__dirname, "src/styles"),
             to: path.resolve('dist', 'styles'),
-          },
+          }, */
           {
             from: path.resolve(__dirname, "src/_locales"),
             to: path.resolve('dist', '_locales'),
+          },
+          {
+            from: path.resolve(__dirname, "src/icons"),
+            to: path.resolve('dist', 'icons'),
           },
         ],
 
