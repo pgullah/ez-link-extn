@@ -1,6 +1,6 @@
-import { EventActionType, Link } from "./common/models";
+import { EventActionType } from "./common/models";
 
-chrome.runtime.onMessage.addListener( function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener( function (request/* , sender, sendResponse */) {
     console.log("Got your message from content.js : ", request);
     if (request.actionType === EventActionType.LINK_ACTION_INIT) {
         const link = request.data

@@ -1,10 +1,3 @@
-import { LitElement, css, html, nothing } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
-import * as db from '../common/local-store';
-import './link-parameter-component'
-import './select.component'
-import { Consumer, KeyOption, Link, LinkParameter, Option, Supplier } from '../common/models';
-import { appState } from '../common/app-state';
 import '@material/web/button/filled-button.js';
 import '@material/web/button/filled-tonal-button.js';
 import '@material/web/button/text-button.js';
@@ -12,12 +5,19 @@ import '@material/web/dialog/dialog.js';
 import '@material/web/icon/icon.js';
 import '@material/web/iconbutton/icon-button.js';
 import '@material/web/radio/radio.js';
-import '@material/web/textfield/filled-text-field.js';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/switch/switch.js';
-import { renderReactiveInput, renderReactiveSelect, setInputValue } from '../common/render-utils';
+import '@material/web/textfield/filled-text-field.js';
+import { LitElement, css, html, nothing } from 'lit';
+import { customElement, property, state } from 'lit/decorators.js';
+import { appState } from '../common/app-state';
 import { CloseIcon, DeleteIcon } from '../common/icons';
+import * as db from '../common/local-store';
+import { KeyOption, Link, LinkParameter } from '../common/models';
+import { renderReactiveInput, renderReactiveSelect } from '../common/render-utils';
+import './link-parameter.component';
+import './select.component';
 
 const formStyles = css`
 
@@ -160,7 +160,7 @@ export class FormComponent extends LitElement {
                     <!--<md-text-button form="link-entry-form" value="reset" type="reset" role="presentation">Reset</md-text-button>-->
                     <div style="flex: 1"></div>
                     <md-text-button form="link-entry-form" type="button" @click=${this.hideForm} value="close" role="presentation">Cancel</md-text-button>
-                    <md-text-button form="link-entry-form" type="submit" value="save" autofocus role="presentation">Save</md-text-button>
+                    <md-filled-tonal-button form="link-entry-form" type="submit" value="save" autofocus role="presentation">Save</md-filled-tonal-button>
                 </div>
             </md-dialog>
         `

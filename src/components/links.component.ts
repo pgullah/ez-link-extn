@@ -1,6 +1,7 @@
 import { SignalWatcher } from '@lit-labs/preact-signals';
 import '@material/web/button/filled-button.js';
 import '@material/web/button/outlined-button.js';
+import '@material/web/button/filled-tonal-button.js';
 import '@material/web/checkbox/checkbox.js';
 import '@material/web/dialog/dialog.js';
 import '@material/web/divider/divider.js';
@@ -43,11 +44,11 @@ export class LinksComponent extends SignalWatcher(LitElement) {
 
     confirmDialogRef = createRef();
 
-    showDialog(event: Event) {
+    showDialog() {
         this.canShowDialog.value = true;
     }
     
-    hideDialog(event: Event) {
+    hideDialog() {
         this.canShowDialog.value = false;
     }
 
@@ -82,7 +83,7 @@ export class LinksComponent extends SignalWatcher(LitElement) {
 
     private renderLink(link: Link) {
         return html`            
-            <md-list-item type="button">
+            <md-list-item type="link">
                 <a href="#" class="link" title="${link.title}" @click="${async (evt: Event) => await this.dispatchLinkOpen(evt, link)}">${link.title}</a>
                 <md-icon-button slot="end" @click="${() => this.editLink(link)}">
                     <md-icon>${EditIcon}</md-icon>
