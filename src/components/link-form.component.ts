@@ -1,10 +1,9 @@
 import { LitElement, css, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import * as db from '../common/local-store';
-import { toBoolean } from '../common/utils';
 import './link-parameter-component'
 import './select.component'
-import { KeyOption, Link, LinkParameter } from '../common/models';
+import { Consumer, KeyOption, Link, LinkParameter, Option, Supplier } from '../common/models';
 import { appState } from '../common/app-state';
 import '@material/web/button/filled-button.js';
 import '@material/web/button/filled-tonal-button.js';
@@ -17,6 +16,8 @@ import '@material/web/textfield/filled-text-field.js';
 import '@material/web/select/outlined-select.js';
 import '@material/web/select/select-option.js';
 import '@material/web/switch/switch.js';
+import { renderReactiveInput, renderReactiveSelect, setInputValue } from '../common/render-utils';
+import { CloseIcon, DeleteIcon } from '../common/icons';
 
 const formStyles = css`
 
@@ -48,10 +49,6 @@ const formStyles = css`
     flex: 1;
   }
 `
-type Supplier<V> = () => V;
-type Consumer<T> = (obj: T) => {}
-
-
 @customElement("app-link-form")
 export class FormComponent extends LitElement {
     static styles = [
@@ -61,11 +58,11 @@ export class FormComponent extends LitElement {
     link!: Link
     @state()
     private toggle = false
-    
+
 
     private addNewParameter() {
         const newParms = (this.link.params || []).concat({});
-        this.link = {...this.link, params: newParms}
+        this.link = { ...this.link, params: newParms }
     }
 
     private hideForm() {
@@ -98,40 +95,20 @@ export class FormComponent extends LitElement {
 
     private deleteParam(param: LinkParameter) {
         const newParms = this.link.params?.filter(p => p !== param);
-        this.link = {...this.link, params: newParms}
+        this.link = { ...this.link, params: newParms }
     }
 
     private renderAdvOptParams(param: LinkParameter) {
         return html`
         <div class="link-row">
-            <md-icon-button form="form" slot="start" @click="${() => this.deleteParam(param)}">
-                <md-icon aria-hidden="true">                    
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                </md-icon>
+            <md-icon-button form="link-entry-form" slot="start" @click="${() => this.deleteParam(param)}">
+                <md-icon>${DeleteIcon}</md-icon>
             </md-icon-button>
-            ${this.renderReactiveInput('Name', () => param.key, v => param.key = v)}
-            ${this.renderReactiveInput('Value', () => param.value, v => param.value = v)}
-            ${this.renderReactiveInput('Description', () => param.desc, v => param.desc = v)}
+            ${renderReactiveInput('Name', () => param.key, v => param.key = v)}
+            ${renderReactiveInput('Value', () => param.value, v => param.value = v)}
+            ${renderReactiveInput('Description', () => param.desc, v => param.desc = v)}
         </div>
         `;
-    }
-
-    private renderReactiveInput(label: string, getter: Supplier<string | undefined>, setter: Consumer<string>, required: boolean = false) {
-        return html`
-            <md-filled-text-field autofocus="" label="${label}" role="presentation" inputmode="" type="text" autocomplete="" 
-                ?required=${required}
-                value="${getter()}" 
-                @change=${this.setInputValue(setter)}>
-            </md-filled-text-field>
-        `
-    }
-
-    private renderReactiveSelect(label: string, options: KeyOption[], getter: Supplier<string | undefined>, setter: Consumer<string>, required: boolean = false) {
-        return html`
-            <md-outlined-select name=${label} @change=${this.setInputValue(setter)} ?required=${required}>
-                ${options.map(o => html`<md-select-option value=${o.key} ?selected=${o.key == getter()}><div slot="headline">${o.value}</div></option>`)}
-            </md-outlined-select>
-        `
     }
 
     private toggleAdvOpts() {
@@ -143,35 +120,33 @@ export class FormComponent extends LitElement {
     }
 
 
-    private setInputValue(setter: Consumer<string>) {
-        return (evt: Event) => setter((evt.target as HTMLInputElement).value)
-    }
-
     connectedCallback(): void {
         super.connectedCallback()
         this.toggle = this.hasLinkParams();
     }
 
     render() {
-        // this.toggle = this.hasLinkParams();
         return html`            
             <md-dialog class="link" role="presentation" open="" @close=${this.hideForm} @cancel=${this.hideForm}>
                 <span slot="headline">
-                    <md-icon-button form="form"  @click=${this.hideForm} aria-label="Close dialog" role="presentation">
-                        <md-icon aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></md-icon>
+                    <md-icon-button form="link-entry-form"  @click=${this.hideForm} aria-label="Close dialog" role="presentation">
+                        <md-icon>${CloseIcon}</md-icon>
                     </md-icon-button>
                     <span class="headline">${!this.link.id ? 'Create new' : 'Update'} link</span>
                 </span>
-                <form id="form" slot="content" class="link-content" action="#">
+                <form id="link-entry-form" slot="content" class="link-content" action="#">
                     <input type="hidden" name="id" value="${this.link.id ?? ''} />
                     <div class="link-row">
-                        ${this.renderReactiveInput('Title', () => this.link.title, v => this.link.title = v, true)}
+                        ${renderReactiveInput('Title', () => this.link.title, v => this.link.title = v, {required: true})}
                     </div>
                     <div class="link-row">
-                        ${this.renderReactiveInput('URL', () => this.link.url, v => this.link.url = v, true)}
+                        ${renderReactiveInput('URL', () => this.link.url, v => this.link.url = v, {required: true, type: 'url'})}
                     </div>
                     <div class="link-row">
-                        ${this.renderReactiveSelect('Method', this.buildHttpMethodOptions(), () => (this.link.method ?? 'GET'), v => this.link.method = v as any)}
+                        ${renderReactiveSelect('Method', this.buildHttpMethodOptions(), 
+                            () => (this.link.method ?? 'GET'), 
+                            v => this.link.method = v as any, {required: true})
+                        }
                     </div>
                     <div class="link-row">
                         <label>
@@ -181,10 +156,10 @@ export class FormComponent extends LitElement {
                     ${this.toggle ? this.advancedOptions() : nothing}
                 </form>
                 <div slot="actions">
-                    <md-text-button form="form" value="reset" type="reset" role="presentation">Reset</md-text-button>
+                    <!--<md-text-button form="link-entry-form" value="reset" type="reset" role="presentation">Reset</md-text-button>-->
                     <div style="flex: 1"></div>
-                    <md-text-button form="form" value="close" role="presentation">Cancel</md-text-button>
-                    <md-text-button form="form" value="save" @click=${async () => await this.saveForm(this.link)} role="presentation">Save</md-text-button>
+                    <md-text-button form="link-entry-form" value="close" role="presentation">Cancel</md-text-button>
+                    <md-text-button form="link-entry-form" value="save" autofocus @click=${async () => await this.saveForm(this.link)} role="presentation">Save</md-text-button>
                 </div>
             </md-dialog>
         `

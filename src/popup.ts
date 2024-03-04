@@ -3,14 +3,16 @@ import { SignalWatcher } from '@lit-labs/preact-signals';
 import '@material/web/fab/branded-fab.js';
 import '@material/web/fab/fab.js';
 import '@material/web/icon/icon.js';
-import { LitElement, html } from 'lit';
-import { customElement, query, state } from 'lit/decorators.js';
+import '@material/web/iconbutton/icon-button.js';
+import { LitElement, html, nothing } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 import { appState } from './common/app-state';
 import { Link } from './common/models';
 import './components/link-form.component';
 import './components/links.component';
-import { mainStyles } from './styles/main';
 import { matFabStyle } from './styles/component';
+import { mainStyles } from './styles/main';
+import { AddIcon, MdIcon } from './common/icons';
 
 @customElement("app-root")
 export class AppComponent extends SignalWatcher(LitElement) {
@@ -69,16 +71,17 @@ export class AppComponent extends SignalWatcher(LitElement) {
         return html`
             <main class="mdc-top-app-bar--fixed-adjust">
                 <div class="ez-container" @showLinkForm=${this.showForm} @hideLinkForm=${this.hideForm}>
-                    <h4 id="greeting">${hasLinks ? "Your Links" : "Sorry, you don't seem to have any links. Try adding one."}</h4>
+                    ${!hasLinks ? html`<h4>Sorry, you don't seem to have any links. Try adding one.</h4>` : nothing}
                     <div class="row">
                         <md-fab size="small" label="Add Link" variant="primary" @click="${this.showForm}">
-                            <md-icon slot="icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                            </md-icon>
+                            ${MdIcon(AddIcon)}
                         </md-fab>
                     </div>
-                    <md-divider style="margin:10px 0px 10px 0px;"></md-divider>            
-                    ${hasLinks ? html`<app-links></app-links>` : ''} 
+                    ${hasLinks ? html`
+                        <md-divider style="margin:10px 0px 10px 0px;"></md-divider>
+                        <app-links></app-links>` 
+                        : nothing
+                    } 
                     ${this.linkForm && html`<app-link-form .link=${this.linkForm}></app-link-form>`}
                 </div>
             </main>        
