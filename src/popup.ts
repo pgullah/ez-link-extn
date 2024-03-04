@@ -21,11 +21,11 @@ export class AppComponent extends SignalWatcher(LitElement) {
         matFabStyle,
     ];
     @state()
-    linkForm?: Link
+    private linkForm?: Link
 
     private showForm(evt?: Event) {
         if(evt != null && evt instanceof CustomEvent) {
-            this.linkForm = evt.detail
+            this.linkForm = {...evt.detail}
         } else {
             this.linkForm = {}
         }

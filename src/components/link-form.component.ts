@@ -72,7 +72,8 @@ export class FormComponent extends LitElement {
         }))
     }
 
-    private async saveForm(linkToSave: Link) {
+    private async saveForm(event: SubmitEvent, linkToSave: Link) {
+        event.preventDefault();
         await db.saveLink(linkToSave)
         appState.links.value = await db.findAllLinks()
         this.hideForm()
@@ -134,7 +135,7 @@ export class FormComponent extends LitElement {
                     </md-icon-button>
                     <span class="headline">${!this.link.id ? 'Create new' : 'Update'} link</span>
                 </span>
-                <form id="link-entry-form" slot="content" class="link-content" action="#">
+                <form id="link-entry-form" slot="content" class="link-content" action="#" @submit=${async (event: SubmitEvent) => await this.saveForm(event, this.link)} >
                     <input type="hidden" name="id" value="${this.link.id ?? ''} />
                     <div class="link-row">
                         ${renderReactiveInput('Title', () => this.link.title, v => this.link.title = v, {required: true})}
@@ -158,8 +159,8 @@ export class FormComponent extends LitElement {
                 <div slot="actions">
                     <!--<md-text-button form="link-entry-form" value="reset" type="reset" role="presentation">Reset</md-text-button>-->
                     <div style="flex: 1"></div>
-                    <md-text-button form="link-entry-form" value="close" role="presentation">Cancel</md-text-button>
-                    <md-text-button form="link-entry-form" value="save" autofocus @click=${async () => await this.saveForm(this.link)} role="presentation">Save</md-text-button>
+                    <md-text-button form="link-entry-form" type="button" @click=${this.hideForm} value="close" role="presentation">Cancel</md-text-button>
+                    <md-text-button form="link-entry-form" type="submit" value="save" autofocus role="presentation">Save</md-text-button>
                 </div>
             </md-dialog>
         `
