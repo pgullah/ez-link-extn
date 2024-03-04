@@ -62,3 +62,6 @@ export class KeyValueOption implements Option {
         return this.v;
     }
 }
+
+export type Supplier<V> = () => V;
+export type Consumer<T> = (obj: T) => {}
