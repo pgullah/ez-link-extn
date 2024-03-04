@@ -11,7 +11,7 @@ import { Link } from './common/models';
 import './components/link-form.component';
 import './components/links.component';
 import { matFabStyle } from './styles/component';
-import { mainStyles } from './styles/main';
+import { mainStyles } from './styles/main.styles';
 import { AddIcon, MdIcon } from './common/icons';
 
 @customElement("app-root")
@@ -51,19 +51,6 @@ export class AppComponent extends SignalWatcher(LitElement) {
             </div>
         </header>-->        
         `
-    }
-
-    connectedCallback(): void {
-        super.connectedCallback();
-        /* const pid = setInterval(() => {
-            const el = this.renderRoot.querySelector('.mdc-top-app-bar')!
-            console.log("checking ", el)
-            if (el !== null && el !== undefined) {
-                clearInterval(pid);
-            }
-
-        }, 100); */
-        //${new MDCTopAppBar(document.querySelector('.mdc-top-app-bar')!)}
     }
 
     renderMain() {

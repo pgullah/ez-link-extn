@@ -8,12 +8,13 @@ export interface LinkParameter {
     desc?: string
 }
 
-export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-
 export enum EventActionType {
     LINK_ACTION_INIT,
     LINK_ACTION_CLOSE
 }
+
+
+export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 export interface Link {
     id?: string,
