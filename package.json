@@ -1,6 +1,6 @@
 {
   "name": "Ez Link",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple extension to lauch even links with POST data with single click",
   "main": "index.js",
   "scripts": {
